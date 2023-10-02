@@ -9,7 +9,6 @@ import UIKit
 
 final class GameplayViewController: UIViewController, UICollisionBehaviorDelegate {
     
-    
     @IBOutlet var timeProgressView: UIProgressView!
     
     @IBOutlet var live1Image: UIImageView!
@@ -17,15 +16,16 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     @IBOutlet var live3Image: UIImageView!
     @IBOutlet var live4Image: UIImageView!
     
-    var timer = Timer()
-    var gameTimer = 20
-    let indexProgressBar = 20
+    private var timer = Timer()
+    private var gameTimer = 20
+    private let indexProgressBar = 20
     
-    var animator: UIDynamicAnimator!
-    var collision: UICollisionBehavior!
-    var snap: UISnapBehavior!
+    private var animator: UIDynamicAnimator!
+    private var collision: UICollisionBehavior!
+    private var snap: UISnapBehavior!
     
-    var life = 4
+    private var life = 4
+    private var enemys: [Enemy] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,10 +43,18 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     }
     
     @objc func tapOnEnemy(_ sender: UITapGestureRecognizer) {
-       // let tapView = enemyImageView[sender.view!.tag]
-        
-        collision.removeItem(sender.view!)
-        sender.view?.removeFromSuperview()
+        guard let index = sender.view?.tag else { return }
+        enemys[index].life -= 1
+        if enemys[index].life == 1 {
+            UIView.animate(withDuration: 0.1) {
+                sender.view?.alpha = 0.2
+            } completion: { _ in
+                sender.view?.alpha = 1.0
+            }
+        } else {
+            collision.removeItem(sender.view!)
+            sender.view?.removeFromSuperview()
+        }
     }
     
     //MARK: -  Timer
@@ -56,7 +64,6 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
                                      selector: #selector(timerAction),
                                      userInfo: nil,
                                      repeats: true)
-        
     }
     
     @objc func timerAction() {
@@ -103,24 +110,26 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     //MARK: -  generate enemy
     
     private func createEnemy() {
-        let typeEnemy = Enemy.getRandomEnemy()
-        
-        let enemyImageView  = UIImageView(image: UIImage(named: typeEnemy.image))
-        enemyImageView.frame = typeEnemy.size
+        var enemy = Enemy.getRandomEnemy()
+        enemys.append(enemy)
+
+        let enemyImageView  = UIImageView(image: UIImage(named: enemy.image))
+        enemyImageView.frame = enemy.size
         enemyImageView.center = getCenterEnemy(widthEnemy: enemyImageView.frame.width)
         view.addSubview(enemyImageView)
-        
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapOnEnemy(_:)))
         enemyImageView.isUserInteractionEnabled = true
         enemyImageView.addGestureRecognizer(tapGesture)
+        tapGesture.view?.tag = enemys.count - 1
+        
         collision.addItem(enemyImageView)
         snap = UISnapBehavior(item: enemyImageView, snapTo: view.center)
-        snap.damping = 20
+        snap.damping = enemy.speed
         animator.addBehavior(snap)
 
     }
-    
+    //MARK: - enemy start point
     private func getCenterEnemy(widthEnemy: CGFloat) -> CGPoint {
         let side = ["left", "right", "top", "bottom"]
         let randomSide = side.randomElement()
@@ -154,28 +163,33 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         }
         if life == 0 {
             finishTheGame(isWin: false)
-            timer.invalidate()
         }
     }
     
     private func finishTheGame(isWin: Bool) {
-        let endView = UIImageView()
+        timer.invalidate()
+        collision.removeAllBoundaries()
         
+        let endView = UIImageView()
         endView.image = isWin ? UIImage(named: "win") : UIImage(named: "gameOver")
         endView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: view.frame.height - 100)
         endView.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2 )
+        endView.alpha = 0.1
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapEndGame(_:)))
         endView.isUserInteractionEnabled = true
         endView.addGestureRecognizer(tapGesture)
         self.view.addSubview(endView)
+        
+        UIView.animate(withDuration: 1) {
+            endView.alpha = 1.0
+        }
     }
     
     func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
         let collidingView = item as! UIView
         collidingView.removeFromSuperview()
         lossOfLife()
-        
     }
 }
 

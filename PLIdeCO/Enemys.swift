@@ -9,8 +9,8 @@ import Foundation
 
 struct Enemy {
     let image: String
-    let size: CGRect
-    let life: Int
+    var size: CGRect
+    var life: Int
     let speed: Double
     
     
@@ -23,17 +23,17 @@ struct Enemy {
            return Enemy(image: "enemy3",
                   size: CGRect(x: 0, y: 0, width: 15, height: 15),
                   life: 1,
-                  speed: 3.0)
+                  speed: 25.0)
         case "standart":
            return  Enemy(image: "enemy2",
                   size: CGRect(x: 0, y: 0, width: 30, height: 30),
                   life: 1,
-                  speed: 6.0)
+                  speed: 30.0)
         default:
             return Enemy(image: "enemy1",
                   size: CGRect(x: 0, y: 0, width: 50, height: 50),
                   life: 2,
-                  speed: 10.0)
+                  speed: 35.0)
         }
     }
 }
