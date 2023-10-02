@@ -7,8 +7,7 @@
 
 import UIKit
 
-final class GameplayViewController: UIViewController {
-    
+class GameplayViewController: UIViewController {
     
     @IBOutlet var timeProgressView: UIProgressView!
     
@@ -17,27 +16,22 @@ final class GameplayViewController: UIViewController {
     @IBOutlet var live3Image: UIImageView!
     @IBOutlet var live4Image: UIImageView!
     
-    var timer = Timer()
-    var gameTimer = 20
-    let indexProgressBar = 20
+    private var timer = Timer()
+    private var gameTimer = 20
+    private let indexProgressBar = 20
     
-    var tapGesture = UITapGestureRecognizer()
+    private var tapGesture = UITapGestureRecognizer()
     
-    var animator: UIDynamicAnimator!
-    var gravityBehavior: UIGravityBehavior!
-    var collisionBehavior: UICollisionBehavior!
-    
-    var life = 4
+    private var life = 4
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        tapGesture.numberOfTapsRequired = 1
         timeProgressView.progress = 1.0
         startTimer()
     }
-
+    
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let notificationsVC = storyboard.instantiateViewController(withIdentifier: "NotificationsViewController") as! NotificationsViewController
@@ -60,9 +54,7 @@ final class GameplayViewController: UIViewController {
         
         let currentProgress =  Float(gameTimer) / Float(indexProgressBar - 1)
         timeProgressView.setProgress(currentProgress, animated: true)
-        print(String(gameTimer))
         if gameTimer == 0 {
-            timer.invalidate()
             finishTheGame(isWin: true)
         }
     }
@@ -75,7 +67,6 @@ final class GameplayViewController: UIViewController {
         let enemyImageView  = UIImageView(image: UIImage(named: typeEnemy.image))
         enemyImageView.frame = typeEnemy.size
         enemyImageView.center = getCenterEnemy(widthEnemy: enemyImageView.frame.width)
-        
         enemyImageView.addGestureRecognizer(tapGesture)
         enemyImageView.isUserInteractionEnabled = true
         view.addSubview(enemyImageView)
@@ -87,6 +78,7 @@ final class GameplayViewController: UIViewController {
             self.lossOfLife()
         }
     }
+    //MARK: -  inteface
     
     private func getCenterEnemy(widthEnemy: CGFloat) -> CGPoint {
         let side = ["left", "right", "top", "bottom"]
@@ -121,13 +113,15 @@ final class GameplayViewController: UIViewController {
         }
         if life == 0 {
             finishTheGame(isWin: false)
-            timer.invalidate()
         }
     }
     
+    //MARK: -  finsh
+    
     private func finishTheGame(isWin: Bool) {
-        let endView = UIImageView()
+        timer.invalidate()
         
+        let endView = UIImageView()
         endView.image = isWin ? UIImage(named: "win") : UIImage(named: "gameOver")
         endView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: view.frame.height - 100)
         endView.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2 )
