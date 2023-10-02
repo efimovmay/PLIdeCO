@@ -39,7 +39,6 @@ final class GameplayViewController: UIViewController {
     }
 
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let notificationsVC = storyboard.instantiateViewController(withIdentifier: "NotificationsViewController") as! NotificationsViewController
         notificationsVC.modalPresentationStyle = .fullScreen
