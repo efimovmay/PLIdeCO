@@ -74,7 +74,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gameplayBackground" translatesAutoresizingMaskIntoConstraints="NO" id="GMU-6F-UdN">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gamePlayBackground" translatesAutoresizingMaskIntoConstraints="NO" id="GMU-6F-UdN">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="buttonGame" translatesAutoresizingMaskIntoConstraints="NO" id="NkC-Fj-ekE">
@@ -254,7 +254,7 @@
     </scenes>
     <resources>
         <image name="buttonGame" width="879" height="101"/>
-        <image name="gameplayBackground" width="1080" height="2400"/>
+        <image name="gamePlayBackground" width="1080" height="2400"/>
         <image name="live" width="59" height="53"/>
         <image name="mainCircle" width="357" height="356"/>
         <image name="menuBackground" width="1080" height="2400"/>

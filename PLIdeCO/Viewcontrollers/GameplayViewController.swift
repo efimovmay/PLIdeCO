@@ -21,8 +21,6 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     var gameTimer = 20
     let indexProgressBar = 20
     
-    var tapGesture = UITapGestureRecognizer()
-    
     var animator: UIDynamicAnimator!
     var collision: UICollisionBehavior!
     var snap: UISnapBehavior!
@@ -31,17 +29,24 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+
         startGame()
     }
-
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+    //MARK: -  Tap views
+    
+    @objc func tapEndGame(_ sender: UITapGestureRecognizer) {
         timer.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let notificationsVC = storyboard.instantiateViewController(withIdentifier: "NotificationsViewController") as! NotificationsViewController
         notificationsVC.modalPresentationStyle = .fullScreen
         present(notificationsVC, animated: true)
+    }
+    
+    @objc func tapOnEnemy(_ sender: UITapGestureRecognizer) {
+       // let tapView = enemyImageView[sender.view!.tag]
+        
+        collision.removeItem(sender.view!)
+        sender.view?.removeFromSuperview()
     }
     
     //MARK: -  Timer
@@ -66,7 +71,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
             finishTheGame(isWin: true)
         }
     }
-    
+    //MARK: -  Start
     
     private func startGame() {
         let ballcenter = getBallCircle()
@@ -104,6 +109,9 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         enemyImageView.frame = typeEnemy.size
         enemyImageView.center = getCenterEnemy(widthEnemy: enemyImageView.frame.width)
         view.addSubview(enemyImageView)
+        
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapOnEnemy(_:)))
         enemyImageView.isUserInteractionEnabled = true
         enemyImageView.addGestureRecognizer(tapGesture)
         collision.addItem(enemyImageView)
@@ -156,6 +164,8 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         endView.image = isWin ? UIImage(named: "win") : UIImage(named: "gameOver")
         endView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: view.frame.height - 100)
         endView.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2 )
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapEndGame(_:)))
         endView.isUserInteractionEnabled = true
         endView.addGestureRecognizer(tapGesture)
         self.view.addSubview(endView)
