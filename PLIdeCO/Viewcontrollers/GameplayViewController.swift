@@ -173,7 +173,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         self.view.addSubview(endView)
     }
     
-    private func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
+    func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
         let collidingView = item as! UIView
         collidingView.removeFromSuperview()
         lossOfLife()
