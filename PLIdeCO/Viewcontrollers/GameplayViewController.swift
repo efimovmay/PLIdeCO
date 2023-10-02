@@ -22,10 +22,8 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     let indexProgressBar = 20
     
     var tapGesture = UITapGestureRecognizer()
-    var firstContact = false
     
     var animator: UIDynamicAnimator!
-    var gravity: UIGravityBehavior!
     var collision: UICollisionBehavior!
     var snap: UISnapBehavior!
     
@@ -37,13 +35,6 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
         startGame()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-
-    }
-    
 
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
         timer.invalidate()
@@ -98,9 +89,8 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
                                               y: Int(view.frame.height) / 2 - 50,
                                               width: 100,
                                               height: 100))
-        ballcenter.layer.borderColor = UIColor.green.cgColor
-        ballcenter.layer.borderWidth = 2
-        ballcenter.layer.cornerRadius = ballcenter.frame.width / 2
+
+        ballcenter.layer.cornerRadius = ballcenter.frame.height / 2
         return ballcenter
     }
     
@@ -113,8 +103,6 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         let enemyImageView  = UIImageView(image: UIImage(named: typeEnemy.image))
         enemyImageView.frame = typeEnemy.size
         enemyImageView.center = getCenterEnemy(widthEnemy: enemyImageView.frame.width)
-        enemyImageView.layer.cornerRadius = enemyImageView.frame.width / 2
-
         view.addSubview(enemyImageView)
         enemyImageView.isUserInteractionEnabled = true
         enemyImageView.addGestureRecognizer(tapGesture)
