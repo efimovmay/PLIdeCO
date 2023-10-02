@@ -110,7 +110,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     //MARK: -  generate enemy
     
     private func createEnemy() {
-        var enemy = Enemy.getRandomEnemy()
+        let enemy = Enemy.getRandomEnemy()
         enemys.append(enemy)
 
         let enemyImageView  = UIImageView(image: UIImage(named: enemy.image))
@@ -130,6 +130,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
 
     }
     //MARK: - enemy start point
+    
     private func getCenterEnemy(widthEnemy: CGFloat) -> CGPoint {
         let side = ["left", "right", "top", "bottom"]
         let randomSide = side.randomElement()
@@ -148,6 +149,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
                            y: view.frame.height + widthEnemy)
         }
     }
+    //MARK: - live manager
     
     private func lossOfLife() {
         life -= 1
@@ -165,6 +167,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
             finishTheGame(isWin: false)
         }
     }
+    //MARK: - finish game
     
     private func finishTheGame(isWin: Bool) {
         timer.invalidate()
