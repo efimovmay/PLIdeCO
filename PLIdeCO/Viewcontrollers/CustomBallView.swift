@@ -5,4 +5,12 @@
 //  Created by Aleksey Efimov on 04.10.2023.
 //
 
-import Foundation
+import UIKit
+
+class CustomBallView: UIImageView {
+    
+    override public var collisionBoundsType: UIDynamicItemCollisionBoundsType {
+        return .ellipse
+    }
+    
+}

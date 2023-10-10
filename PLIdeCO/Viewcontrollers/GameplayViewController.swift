@@ -15,6 +15,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     @IBOutlet var live2Image: UIImageView!
     @IBOutlet var live3Image: UIImageView!
     @IBOutlet var live4Image: UIImageView!
+    @IBOutlet var centerBall: UIImageView!
     
     private var timer = Timer()
     private var gameTimer = 20
@@ -23,6 +24,12 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     private var animator: UIDynamicAnimator!
     private var collision: UICollisionBehavior!
     private var snap: UISnapBehavior!
+    private var dynamic: UIDynamicItemBehavior!
+    lazy var gravity: UIFieldBehavior = {
+        let gravity = UIFieldBehavior.springField()
+        gravity.strength = 0.005
+        return gravity
+    }()
     
     private var life = 4
     private var enemys: [Enemy] = []
@@ -31,6 +38,12 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         super.viewDidLoad()
 
         startGame()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        gravity.position = view.center
+
     }
     //MARK: -  Tap views
     
@@ -52,6 +65,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
                 sender.view?.alpha = 1.0
             }
         } else {
+            
             collision.removeItem(sender.view!)
             sender.view?.removeFromSuperview()
         }
@@ -81,53 +95,47 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     //MARK: -  Start
     
     private func startGame() {
-        let ballcenter = getBallCircle()
-        view.addSubview(ballcenter)
+
         timeProgressView.progress = 1.0
         
         animator = UIDynamicAnimator(referenceView: view)
         
-        collision = UICollisionBehavior()
-        collision.addBoundary(withIdentifier: "ball" as NSCopying,
-                              for: UIBezierPath(rect: ballcenter.frame))
-        collision.collisionDelegate = self
-        animator.addBehavior(collision)
-    
+        settingCollision()
+        animator.addBehavior(gravity)
+        
         startTimer()
     }
     
-    private func getBallCircle() -> UIView {
-        let ballcenter = UIView(frame: CGRect(x: Int(view.frame.width) / 2 - 50,
-                                              y: Int(view.frame.height) / 2 - 50,
-                                              width: 100,
-                                              height: 100))
-
-        ballcenter.layer.cornerRadius = ballcenter.frame.height / 2
-        return ballcenter
+    private func settingCollision() {
+        collision = UICollisionBehavior()
+        let xPointCenter = (view.frame.width / 2) - (centerBall.frame.width / 2)
+        let yPointCenter = (view.frame.height / 2) - (centerBall.frame.height / 2)
+        let sizeBounrary = CGRect(x: xPointCenter ,
+                                  y: yPointCenter,
+                                  width: centerBall.frame.width,
+                                  height: centerBall.frame.height)
+        collision.addBoundary(withIdentifier: "ball" as NSCopying, for: UIBezierPath(ovalIn: sizeBounrary))
+        collision.collisionDelegate = self
+        animator.addBehavior(collision)
     }
-    
     
     //MARK: -  generate enemy
     
     private func createEnemy() {
         let enemy = Enemy.getRandomEnemy()
         enemys.append(enemy)
-
-        let enemyImageView  = UIImageView(image: UIImage(named: enemy.image))
-        enemyImageView.frame = enemy.size
-        enemyImageView.center = getCenterEnemy(widthEnemy: enemyImageView.frame.width)
-        view.addSubview(enemyImageView)
+        let enemyView = CustomBallView(image: UIImage(named: enemy.image))
+        enemyView.frame = enemy.size
+        enemyView.center = getCenterEnemy(widthEnemy: enemyView.frame.width)
+        view.addSubview(enemyView)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapOnEnemy(_:)))
-        enemyImageView.isUserInteractionEnabled = true
-        enemyImageView.addGestureRecognizer(tapGesture)
+        enemyView.isUserInteractionEnabled = true
+        enemyView.addGestureRecognizer(tapGesture)
         tapGesture.view?.tag = enemys.count - 1
         
-        collision.addItem(enemyImageView)
-        snap = UISnapBehavior(item: enemyImageView, snapTo: view.center)
-        snap.damping = enemy.speed
-        animator.addBehavior(snap)
-
+        collision.addItem(enemyView)
+        gravity.addItem(enemyView)
     }
     //MARK: - enemy start point
     
@@ -190,7 +198,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     }
     
     func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
-        let collidingView = item as! UIView
+        guard let collidingView = item as? UIImageView else { return }
         collidingView.removeFromSuperview()
         lossOfLife()
     }

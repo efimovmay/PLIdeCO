@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5B3B536A2ACAA11800A81D21 /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B53692ACAA11800A81D21 /* NotificationsViewController.swift */; };
 		5B3B536C2ACAA17100A81D21 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B536B2ACAA17100A81D21 /* MenuViewController.swift */; };
+		5B3B536E2ACDCC0800A81D21 /* CustomBallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B3B536D2ACDCC0800A81D21 /* CustomBallView.swift */; };
 		5B956C792AC5BC74009CBE73 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B956C782AC5BC74009CBE73 /* AppDelegate.swift */; };
 		5B956C7B2AC5BC74009CBE73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B956C7A2AC5BC74009CBE73 /* SceneDelegate.swift */; };
 		5B956C7D2AC5BC74009CBE73 /* GameplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B956C7C2AC5BC74009CBE73 /* GameplayViewController.swift */; };
@@ -23,6 +24,7 @@
 		5B3B53682AC8A22300A81D21 /* Inter-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Bold.ttf"; sourceTree = "<group>"; };
 		5B3B53692ACAA11800A81D21 /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
 		5B3B536B2ACAA17100A81D21 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		5B3B536D2ACDCC0800A81D21 /* CustomBallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBallView.swift; sourceTree = "<group>"; };
 		5B5AD8BF2AC81E7D00F5E7B8 /* Lifehack Basic Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lifehack Basic Regular.ttf"; sourceTree = "<group>"; };
 		5B5AD8C02AC8300600F5E7B8 /* Muller Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Muller Regular.ttf"; sourceTree = "<group>"; };
 		5B956C752AC5BC74009CBE73 /* PLIdeCO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PLIdeCO.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +64,7 @@
 				5B956C7C2AC5BC74009CBE73 /* GameplayViewController.swift */,
 				5B3B53692ACAA11800A81D21 /* NotificationsViewController.swift */,
 				5B3B536B2ACAA17100A81D21 /* MenuViewController.swift */,
+				5B3B536D2ACDCC0800A81D21 /* CustomBallView.swift */,
 			);
 			path = Viewcontrollers;
 			sourceTree = "<group>";
@@ -183,6 +186,7 @@
 				5B3B536C2ACAA17100A81D21 /* MenuViewController.swift in Sources */,
 				5B956C8D2AC7072C009CBE73 /* Enemys.swift in Sources */,
 				5B956C7D2AC5BC74009CBE73 /* GameplayViewController.swift in Sources */,
+				5B3B536E2ACDCC0800A81D21 /* CustomBallView.swift in Sources */,
 				5B956C792AC5BC74009CBE73 /* AppDelegate.swift in Sources */,
 				5B956C7B2AC5BC74009CBE73 /* SceneDelegate.swift in Sources */,
 			);
