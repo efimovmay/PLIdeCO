@@ -167,6 +167,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="d2Q-Jj-Mk5"/>
                     <connections>
+                        <outlet property="centerBall" destination="gIq-ma-FZb" id="Hz6-rg-90m"/>
                         <outlet property="live1Image" destination="gKK-PF-T6f" id="n8y-QK-6xc"/>
                         <outlet property="live2Image" destination="esI-c9-rh8" id="CHq-XL-ve6"/>
                         <outlet property="live3Image" destination="RGO-NO-ffy" id="Xro-jr-cNe"/>
@@ -191,8 +192,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALLOW NOTIFICATIONS ABOUT BONUSES AND PROMOS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jmk-fU-wHy">
-                                <rect key="frame" x="30" y="571.33333333333337" width="315" height="41.333333333333371"/>
-                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="17"/>
+
+                                <rect key="frame" x="30" y="562.66666666666663" width="315" height="46"/>
+                                <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="19"/>
+
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -265,7 +268,7 @@
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemGroupedBackgroundColor">
-            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

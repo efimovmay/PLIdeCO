@@ -7,7 +7,8 @@
 
 import UIKit
 
-class GameplayViewController: UIViewController {
+final class GameplayViewController: UIViewController, UICollisionBehaviorDelegate {
+
     
     @IBOutlet var timeProgressView: UIProgressView!
     
@@ -15,28 +16,60 @@ class GameplayViewController: UIViewController {
     @IBOutlet var live2Image: UIImageView!
     @IBOutlet var live3Image: UIImageView!
     @IBOutlet var live4Image: UIImageView!
+    @IBOutlet var centerBall: UIImageView!
     
     private var timer = Timer()
     private var gameTimer = 20
     private let indexProgressBar = 20
     
-    private var tapGesture = UITapGestureRecognizer()
+    private var animator: UIDynamicAnimator!
+    private var collision: UICollisionBehavior!
+    private var snap: UISnapBehavior!
+    private var dynamic: UIDynamicItemBehavior!
+    lazy var gravity: UIFieldBehavior = {
+        let gravity = UIFieldBehavior.springField()
+        gravity.strength = 0.005
+        return gravity
+    }()
     
     private var life = 4
+    private var enemys: [Enemy] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        timeProgressView.progress = 1.0
-        startTimer()
+
+        startGame()
     }
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        gravity.position = view.center
+
+    }
+    //MARK: -  Tap views
+    
+    @objc func tapEndGame(_ sender: UITapGestureRecognizer) {
+        timer.invalidate()
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let notificationsVC = storyboard.instantiateViewController(withIdentifier: "NotificationsViewController") as! NotificationsViewController
         notificationsVC.modalPresentationStyle = .fullScreen
         present(notificationsVC, animated: true)
+    }
+    
+    @objc func tapOnEnemy(_ sender: UITapGestureRecognizer) {
+        guard let index = sender.view?.tag else { return }
+        enemys[index].life -= 1
+        if enemys[index].life == 1 {
+            UIView.animate(withDuration: 0.1) {
+                sender.view?.alpha = 0.2
+            } completion: { _ in
+                sender.view?.alpha = 1.0
+            }
+        } else {
+            
+            collision.removeItem(sender.view!)
+            sender.view?.removeFromSuperview()
+        }
     }
     
     //MARK: -  Timer
@@ -54,31 +87,59 @@ class GameplayViewController: UIViewController {
         
         let currentProgress =  Float(gameTimer) / Float(indexProgressBar - 1)
         timeProgressView.setProgress(currentProgress, animated: true)
+
         if gameTimer == 0 {
             finishTheGame(isWin: true)
         }
+    }
+    //MARK: -  Start
+    
+    private func startGame() {
+
+        timeProgressView.progress = 1.0
+        
+        animator = UIDynamicAnimator(referenceView: view)
+        
+        settingCollision()
+        animator.addBehavior(gravity)
+        
+        startTimer()
+    }
+    
+    private func settingCollision() {
+        collision = UICollisionBehavior()
+        let xPointCenter = (view.frame.width / 2) - (centerBall.frame.width / 2)
+        let yPointCenter = (view.frame.height / 2) - (centerBall.frame.height / 2)
+        let sizeBounrary = CGRect(x: xPointCenter ,
+                                  y: yPointCenter,
+                                  width: centerBall.frame.width,
+                                  height: centerBall.frame.height)
+        collision.addBoundary(withIdentifier: "ball" as NSCopying, for: UIBezierPath(ovalIn: sizeBounrary))
+        collision.collisionDelegate = self
+        animator.addBehavior(collision)
     }
     
     //MARK: -  generate enemy
     
     private func createEnemy() {
-        let typeEnemy = Enemy.getRandomEnemy()
+        let enemy = Enemy.getRandomEnemy()
+        enemys.append(enemy)
+        let enemyView = CustomBallView(image: UIImage(named: enemy.image))
+        enemyView.frame = enemy.size
+        enemyView.center = getCenterEnemy(widthEnemy: enemyView.frame.width)
+        view.addSubview(enemyView)
         
-        let enemyImageView  = UIImageView(image: UIImage(named: typeEnemy.image))
-        enemyImageView.frame = typeEnemy.size
-        enemyImageView.center = getCenterEnemy(widthEnemy: enemyImageView.frame.width)
-        enemyImageView.addGestureRecognizer(tapGesture)
-        enemyImageView.isUserInteractionEnabled = true
-        view.addSubview(enemyImageView)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapOnEnemy(_:)))
+        enemyView.isUserInteractionEnabled = true
+        enemyView.addGestureRecognizer(tapGesture)
+        tapGesture.view?.tag = enemys.count - 1
         
-        UIView.animate(withDuration: typeEnemy.speed, delay: 0.0, options: [.allowUserInteraction, .curveLinear] ) {
-            enemyImageView.center = self.view.center
-        } completion: { _ in
-            enemyImageView.removeFromSuperview()
-            self.lossOfLife()
-        }
+        collision.addItem(enemyView)
+        gravity.addItem(enemyView)
     }
-    //MARK: -  inteface
+    //MARK: - enemy start point
+
     
     private func getCenterEnemy(widthEnemy: CGFloat) -> CGPoint {
         let side = ["left", "right", "top", "bottom"]
@@ -98,6 +159,7 @@ class GameplayViewController: UIViewController {
                            y: view.frame.height + widthEnemy)
         }
     }
+    //MARK: - live manager
     
     private func lossOfLife() {
         life -= 1
@@ -115,19 +177,34 @@ class GameplayViewController: UIViewController {
             finishTheGame(isWin: false)
         }
     }
+    //MARK: - finish game
     
     //MARK: -  finsh
     
     private func finishTheGame(isWin: Bool) {
         timer.invalidate()
-        
+        collision.removeAllBoundaries()
+
         let endView = UIImageView()
         endView.image = isWin ? UIImage(named: "win") : UIImage(named: "gameOver")
         endView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: view.frame.height - 100)
         endView.center = CGPoint(x: view.frame.width / 2, y: view.frame.height / 2 )
+        endView.alpha = 0.1
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapEndGame(_:)))
         endView.isUserInteractionEnabled = true
         endView.addGestureRecognizer(tapGesture)
         self.view.addSubview(endView)
+        
+        UIView.animate(withDuration: 1) {
+            endView.alpha = 1.0
+        }
+    }
+    
+    func collisionBehavior(_ behavior: UICollisionBehavior, endedContactFor item: UIDynamicItem, withBoundaryIdentifier identifier: NSCopying?) {
+        guard let collidingView = item as? UIImageView else { return }
+        collidingView.removeFromSuperview()
+        lossOfLife()
     }
 }
 

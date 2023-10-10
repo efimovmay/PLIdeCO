@@ -3,4 +3,54 @@
    uuid = "028FB5A2-86DC-4F35-8498-07A210206BB1"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6EFCA084-1D72-4E87-8BA3-C4F56FD41AE9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PLIdeCO/Viewcontrollers/GameplayViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "136"
+            endingLineNumber = "136"
+            landmarkName = "createEnemy()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "6EFCA084-1D72-4E87-8BA3-C4F56FD41AE9 - ee24d8adb432df8d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PLIdeCO.GameplayViewController.createEnemy() -&gt; ()"
+                  moduleName = "PLIdeCO"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksey/Desktop/Study/PLIdeCO/PLIdeCO/Viewcontrollers/GameplayViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "120"
+                  endingLineNumber = "120"
+                  offsetFromSymbolStart = "1328">
+               </Location>
+               <Location
+                  uuid = "6EFCA084-1D72-4E87-8BA3-C4F56FD41AE9 - ee24d8adb432dfae"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "PLIdeCO.GameplayViewController.createEnemy() -&gt; ()"
+                  moduleName = "PLIdeCO"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/aleksey/Desktop/Study/PLIdeCO/PLIdeCO/Viewcontrollers/GameplayViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "119"
+                  endingLineNumber = "119"
+                  offsetFromSymbolStart = "1228">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>
