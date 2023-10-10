@@ -8,6 +8,7 @@
 import UIKit
 
 final class GameplayViewController: UIViewController, UICollisionBehaviorDelegate {
+
     
     @IBOutlet var timeProgressView: UIProgressView!
     
@@ -86,9 +87,8 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         
         let currentProgress =  Float(gameTimer) / Float(indexProgressBar - 1)
         timeProgressView.setProgress(currentProgress, animated: true)
-        
+
         if gameTimer == 0 {
-            timer.invalidate()
             finishTheGame(isWin: true)
         }
     }
@@ -129,6 +129,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         enemyView.center = getCenterEnemy(widthEnemy: enemyView.frame.width)
         view.addSubview(enemyView)
         
+
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapOnEnemy(_:)))
         enemyView.isUserInteractionEnabled = true
         enemyView.addGestureRecognizer(tapGesture)
@@ -138,6 +139,7 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
         gravity.addItem(enemyView)
     }
     //MARK: - enemy start point
+
     
     private func getCenterEnemy(widthEnemy: CGFloat) -> CGPoint {
         let side = ["left", "right", "top", "bottom"]
@@ -177,10 +179,12 @@ final class GameplayViewController: UIViewController, UICollisionBehaviorDelegat
     }
     //MARK: - finish game
     
+    //MARK: -  finsh
+    
     private func finishTheGame(isWin: Bool) {
         timer.invalidate()
         collision.removeAllBoundaries()
-        
+
         let endView = UIImageView()
         endView.image = isWin ? UIImage(named: "win") : UIImage(named: "gameOver")
         endView.frame = CGRect(x: 0, y: 0, width: view.frame.width - 60, height: view.frame.height - 100)

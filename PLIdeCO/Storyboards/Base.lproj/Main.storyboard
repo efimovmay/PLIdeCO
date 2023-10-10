@@ -192,8 +192,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ALLOW NOTIFICATIONS ABOUT BONUSES AND PROMOS" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jmk-fU-wHy">
+
                                 <rect key="frame" x="30" y="562.66666666666663" width="315" height="46"/>
                                 <fontDescription key="fontDescription" name="Inter-Bold" family="Inter" pointSize="19"/>
+
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -239,7 +241,7 @@
                             <constraint firstItem="ecF-4f-Fdb" firstAttribute="trailing" secondItem="SbE-8X-imN" secondAttribute="trailing" constant="25" id="E1e-CB-BXl"/>
                             <constraint firstItem="9Kp-b2-sm7" firstAttribute="top" secondItem="p7Q-O9-ZOh" secondAttribute="top" id="J6S-aL-T5K"/>
                             <constraint firstItem="9Kp-b2-sm7" firstAttribute="leading" secondItem="p7Q-O9-ZOh" secondAttribute="leading" id="SDb-NA-IQJ"/>
-                            <constraint firstItem="BrM-iU-ZAg" firstAttribute="top" secondItem="Jmk-fU-wHy" secondAttribute="bottom" constant="20" id="VFT-ys-yzP"/>
+                            <constraint firstItem="BrM-iU-ZAg" firstAttribute="top" secondItem="Jmk-fU-wHy" secondAttribute="bottom" constant="16" id="VFT-ys-yzP"/>
                             <constraint firstAttribute="bottom" secondItem="9Kp-b2-sm7" secondAttribute="bottom" id="bTx-yp-QYO"/>
                             <constraint firstItem="ecF-4f-Fdb" firstAttribute="trailing" secondItem="Jmk-fU-wHy" secondAttribute="trailing" constant="30" id="g1D-KA-wQQ"/>
                             <constraint firstItem="Jmk-fU-wHy" firstAttribute="leading" secondItem="ecF-4f-Fdb" secondAttribute="leading" constant="30" id="rUi-40-N2u"/>
