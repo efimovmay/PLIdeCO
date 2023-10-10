@@ -10,4 +10,4 @@ UIKit, MVC, UIKit Dynamics
 
 **Prewiew:**
 
-![Image alt](https://github.com/efimovmay/RickAndMorty1221/blob/main/rec.gif)
+![Image alt](https://github.com/efimovmay/PLIdeCO/blob/main/Demo.gif)
